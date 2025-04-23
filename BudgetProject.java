@@ -12,7 +12,7 @@ public class BudgetProject {
 				double total = input.nextDouble();
 				System.out.print("number of spending categories: ");
 				int categories = input.nextInt();
-				budget yourBudget = new breakudget(total);
+				Budget yourBudget = new Budget(total);
 			case 2:
 				break;
 			case 3:
