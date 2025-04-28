@@ -1,0 +1,10 @@
+Budget:
+- total:amount initially put in the budget, can be changed
+- category:
+  - fraction of total
+  - amount
+  - name
+- possible additions:
+  - can be saved to/read from a file
+  - perhaps automatic partitioning by category
+  - no idea how to do this but possible user interface??
