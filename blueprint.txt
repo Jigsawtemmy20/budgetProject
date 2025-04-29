@@ -4,6 +4,7 @@ Budget:
   - fraction of total
   - amount
   - name
+- default categories: grocery, rent, savings, transportation?
 - possible additions:
   - can be saved to/read from a file
   - perhaps automatic partitioning by category
