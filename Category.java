@@ -21,6 +21,6 @@ public class Category {
         return total*this.getPortion();
     }
     public String toString(){
-        return("name: " + this.getName() + "\nportion: " + this.getPortion() + "%");
+        return("Name: " + this.getName() + "\nPortion: " + this.getPortion() + "%");
     }
 }
