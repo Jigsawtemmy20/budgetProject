@@ -4,6 +4,7 @@ public class Budget {
 	private ArrayList<Category> categories;
 	public Budget(double total) {
 		this.total = total;
+		this.categories = new ArrayList<>();
 	}
 	public void setTotal(double total) {
 		this.total = total;
