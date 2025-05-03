@@ -26,4 +26,13 @@ public class Budget {
 			System.out.print(c);
 		}
 	}
+	public boolean totalCategoryPortions() {
+		double sum=0;
+		for(Category c:categories) {
+			sum+=c.getPortion();
+			if(sum>100)
+				return false;
+		}
+		return true;
+	}
 }
