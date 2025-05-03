@@ -18,6 +18,7 @@ public class BudgetProject {
 					System.out.print("\nWhat category would you like to add?");
 					String name = input.nextLine();
 					System.out.print("\nWhat portion of your total would you like to reserve for this category?");
+					if(yourBudget.
 					yourBudget.addCategory(name, input.nextDouble());
 				}
 				System.out.print("\nYou have successfully created your budget calulator!");
