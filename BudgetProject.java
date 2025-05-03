@@ -1,6 +1,7 @@
 import java.util.Scanner;
 public class BudgetProject {
 	public static void main(String[] args) {
+		Budget yourBudget;
 		Scanner input = new Scanner(System.in);
 		boolean on = true;
 		while(on) {
@@ -8,22 +9,23 @@ public class BudgetProject {
 			int response = input.nextInt();
 			switch(response) {
 			case 1:
-				System.out.print("amount: ");
+				System.out.print("Amount: ");
 				double total = input.nextDouble();
-				System.out.print("number of spending categories: ");
+				System.out.print("Number of spending categories: ");
 				int categories = input.nextInt();
-				Budget yourBudget = new Budget(total);
+				yourBudget = new Budget(total);
 			case 2:
 				break;
 			case 3:
+				yourBudget.displayBudget();
 				break;
 			case 4:
 				on = false;
-				System.out.println("goodbye!");
+				System.out.println("Goodbye!");
 				input.close();
 				break;
 			default:
-				System.out.println("try again");
+				System.out.println("Try again.");
 			}
 		}
 	}
