@@ -18,4 +18,9 @@ public class Budget {
 	public void removeCategory(Category c){
 		categories.remove(c);
 	}
+	public void displayBudget() {
+		for(Category c:categories) {
+			System.out.printf("%s: $%.2f%n", c.getName(), c.getPortion());
+		}
+	}
 }
