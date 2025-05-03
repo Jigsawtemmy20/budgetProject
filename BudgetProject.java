@@ -14,22 +14,33 @@ public class BudgetProject {
 				System.out.print("\nNumber of spending categories: ");
 				int categories = input.nextInt();
 				yourBudget = new Budget(total);
+				for(int i=0; i<categories; i++) {
+					System.out.print("\nWhat category would you like to add?");
+					String name = input.nextLine();
+					System.out.print("\nWhat portion of your total would you like to reserve for this category?");
+					yourBudget.addCategory(name, input.nextDouble());
+				}
+				System.out.print("\nYou have successfully created your budget calulator!");
+				break;
 			case 2:
 				System.out.print("Would you like to:\n1) Edit total\n2) Add a category\n3) Remove a category");
 				int action = input.nextInt();
 				if(action == 1) {
-					System.out.print("Please enter a new total amount: ");
+					System.out.print("\nPlease enter a new total amount: ");
 					yourBudget.setTotal(input.nextInt());
 				}
 				else if(action == 2) {
-					System.out.print("What category would you like to add?");
+					System.out.print("\nWhat category would you like to add?");
 					String name = input.nextLine();
-					System.out.print("What portion of your total would you like to reserve for this category?");
+					System.out.print("\nWhat portion of your total would you like to reserve for this category?");
 					yourBudget.addCategory(name, input.nextDouble());
 				}
 				else if(action == 3) {
-					
-					
+					System.out.print("\nWhich category would you like to remove?");
+					yourBudget.removeCategory(input.nextLine());
+				}
+				else
+					System.out.print("\nInvalid input.");
 				break;
 			case 3:
 				yourBudget.displayBudget();
