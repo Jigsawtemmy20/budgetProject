@@ -15,8 +15,11 @@ public class Budget {
 	public void addCategory(String name, double portion){
 		categories.add(new Category(name, portion));
 	}
-	public void removeCategory(Category c){
-		categories.remove(c);
+	public void removeCategory(String name){
+		for(int i = 0; i < categories.size(); i++) {
+			if(categories.get(i).getName().equalsIgnoreCase(name))
+				categories.remove(i);
+		}
 	}
 	public void displayBudget() {
 		for(Category c:categories) {
