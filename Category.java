@@ -1,7 +1,7 @@
 public class Category {
     private String name;
     private double portion;
-    public Category(double portion, String name){
+    public Category(String name, double portion){
         this.portion = portion;
         this.name = name;
     }
@@ -18,9 +18,9 @@ public class Category {
         this.name = name;
     }
     public double getAmount(double total){
-        return total*this.getPortion();
+        return total*this.getPortion()/100;
     }
-    public String toString(){
-        return("Name: " + this.getName() + "\nPortion: " + this.getPortion() + "%\nAmount of money you can spend: "+getAmount();
+    public String toString(double total){
+        return("name: " + this.getName() + "\tportion: " + this.getPortion() + "%\tamount: $" + this.getAmount(total) + "\n");
     }
 }
