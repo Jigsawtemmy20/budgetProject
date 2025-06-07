@@ -32,8 +32,11 @@ public class Budget {
 	public void displayBudget() {
 		System.out.println("name: " + this.getName());
 		System.out.println("Total money: "+ this.getTotal());
+		System.out.println("name\tportion\tamount\t");
+		int count =1;
 		for(Category c:categories) {
-			System.out.print(c.toString(total));
+			System.out.print(count + ". " + c.toString(total));
+			count++;
 		}
 	}
 	public boolean totalCategoryPortions() {
@@ -47,4 +50,23 @@ public class Budget {
 		}
 		return true;
 	}
+	public void spendMoney(int c, double amount){
+		double maxAmount = categories.get(c).getAmount(this.getTotal());
+        if (maxAmount < amount){
+            throw new OverSpentException();
+        }
+        else{
+            maxAmount -= amount;
+			total -= amount;
+			categories.get(c).setPortion(maxAmount*100/total);
+			for(int i=0; i<categories.size(); i++){
+				if(i==c){
+					continue;
+				}
+				else{
+					categories.get(i).setPortion(categories.get(i).getAmount(total)*100/total);
+				}
+			}
+        }
+    }
 }

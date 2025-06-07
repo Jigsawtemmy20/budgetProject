@@ -7,5 +7,5 @@ Budget:
 - default categories: grocery, rent, savings, transportation?
 - possible additions:
   - can be saved to/read from a file
-  - perhaps automatic partitioning by category
   - no idea how to do this but possible user interface??
+  - spend money
