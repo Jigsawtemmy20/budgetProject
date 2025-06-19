@@ -8,6 +8,9 @@ public class Budget {
 		this.categories = new ArrayList<>();
 		this.name = name;
 	}
+	public ArrayList<Category> getCategories(){
+		return this.categories;
+	}
 	public String getName(){
 		return this.name;
 	}
@@ -29,15 +32,17 @@ public class Budget {
 				categories.remove(i);
 		}
 	}
-	public void displayBudget() {
-		System.out.println("name: " + this.getName());
-		System.out.println("Total money: "+ this.getTotal());
-		System.out.println("name\tportion\tamount\t");
+	public String toString(){
+		String s = "name: " + this.getName() + "\n" + "Total money: "+ this.getTotal() + "\n" + "name\tportion\tamount\t\n";
 		int count =1;
 		for(Category c:categories) {
-			System.out.print(count + ". " + c.toString(total));
+			s += count + ". " + c.toString(total);
 			count++;
 		}
+		return s;
+	}
+	public void displayBudget() {
+		System.out.println(this.toString());
 	}
 	public boolean totalCategoryPortions() {
 		double sum=0;

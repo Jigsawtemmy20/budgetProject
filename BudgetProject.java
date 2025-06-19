@@ -1,24 +1,101 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 public class BudgetProject {
+	public static String acceptableChars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+	static File file = new File("budgets.txt");
+	public static PrintWriter setup() throws FileNotFoundException{
+		PrintWriter budgetWriter = new PrintWriter(file);
+		return budgetWriter;
+	}
+	public static Scanner scSetup(File file) throws FileNotFoundException{
+		Scanner budgetReader = new Scanner(file);
+		return budgetReader;
+	}
+	public static Scanner buildReader(){
+		try{
+			Scanner budgetReader = scSetup(file);
+			return budgetReader;
+		}catch(FileNotFoundException f){
+			System.out.println(f);
+			return null;
+		}
+	}
+	public static PrintWriter buildWriter(){
+		try{
+			PrintWriter budgetWriter = setup();
+			return budgetWriter;
+		} catch(FileNotFoundException f){
+			System.out.println(f);
+			return null;
+		}
+	}
 	public static ArrayList budgets = new ArrayList<Budget>();
+	public static void budgetSetup(File file, ArrayList<Budget> budgets, Scanner budgetReader){
+		while (budgetReader.hasNext()){
+			budgetReader.next();
+			String name = budgetReader.next();
+			budgetReader.nextLine();
+			budgetReader.next();
+			budgetReader.next();
+			double total = budgetReader.nextDouble();
+			budgetReader.nextLine();
+			budgetReader.nextLine();
+			budgetReader.next();
+			String next = budgetReader.next();
+			ArrayList categories = new ArrayList<Category>();
+			budgets.add(new Budget(total, name));
+			while(!next.contains("name:")){
+				budgets.get(budgets.size()-1).addCategory(next, budgetReader.nextDouble());
+				budgetReader.nextLine();
+				if(budgetReader.hasNext()){
+					budgetReader.next();
+					next = budgetReader.next();
+				}
+				else{
+					break;
+				}
+			}
+		}
+	}
 	public static void listBudgets(){
 		for(int i=0; i<budgets.size(); i++){
 			System.out.println(i + " " + ((Budget)(budgets.get(i))).getName());
 		}
 	}
+	public static boolean nameCheck(String name){
+		for(int i=0; i<budgets.size(); i++){
+			if(name.equals(((Budget)(budgets.get(i))).getName())){
+				System.out.println(name + " is already used.");
+				return false;
+			}
+		}
+		for(int i=0; i<name.length(); i++){
+			if(acceptableChars.indexOf((name.charAt(i))) == -1){
+				System.out.println(name.charAt(i) + " is not an acceptable character.");
+				return false;
+			}
+		}
+		return true;
+	}
 	public static void main(String[] args) {
+		Scanner budgetReader = buildReader();
 		Scanner input = new Scanner(System.in);
 		boolean on = true;
+		budgetSetup(file, budgets, budgetReader);
 		while(on) {
 			System.out.println("Welcome to the Budget Calculator!  What would you like to do?\n1) Make a new Budget\n2) Edit Budget\n3) View Budget\n4) Spend money\n5) exit");
 			int response = input.nextInt();
 			input.nextLine();
-
 			switch(response) {
 			case 1:
 				System.out.print("\nBudget name: ");
 				String name = input.nextLine();
+				if(!nameCheck(name)){
+					break;
+				}
 				System.out.print("Amount: ");
 				double total = input.nextDouble();
 				Budget yourBudget = new Budget(total, name);
@@ -39,13 +116,22 @@ public class BudgetProject {
 					if (input.nextLine().equals("n")){
 						for(int i=0; i<categories; i++){
 							System.out.print("\nEnter category: ");
-							yourBudget.addCategory(input.nextLine(), 100/categories);
+							String catName = input.nextLine();
+							while(!nameCheck(catName)){
+								System.out.print("\nEnter category: ");
+								catName = input.nextLine();
+							}
+							yourBudget.addCategory(catName, 100/categories);
 						}
 					}
 					else{
 						for(int i=0; i<categories; i++) {
 							System.out.print("\nWhat category would you like to add? ");
 							name = input.nextLine();
+							while(!nameCheck(name)){
+								System.out.print("\nEnter category: ");
+								name = input.nextLine();
+							}
 							System.out.print("\nWhat percentage of your total would you like to reserve for this category? ");
 							yourBudget.addCategory(name, input.nextDouble());
 							if(!yourBudget.totalCategoryPortions()){
@@ -78,9 +164,14 @@ public class BudgetProject {
 				else if(action == 2) {
 					System.out.print("\nWhat category would you like to add? ");
 					name = input.nextLine();
-					System.out.print("\nWhat percentage of your total would you like to reserve for this category? ");
-					budget.addCategory(name, input.nextDouble());
-					input.nextLine();
+					if(nameCheck(name)){
+						System.out.print("\nWhat percentage of your total would you like to reserve for this category? ");
+						budget.addCategory(name, input.nextDouble());
+						input.nextLine();
+					}
+					else{
+						break;
+					}
 				}
 				else if(action == 3) {
 					System.out.print("\nWhich category would you like to remove? ");
@@ -122,7 +213,13 @@ public class BudgetProject {
 			case 5:
 				on = false;
 				System.out.println("Goodbye!");
+				PrintWriter budgetWriter = buildWriter();
+				for(int i=0; i<budgets.size(); i++){
+					budgetWriter.println(budgets.get(i).toString());
+				}
 				input.close();
+				budgetReader.close();
+				budgetWriter.close();
 				break;
 			default:
 				System.out.println("Try again.");

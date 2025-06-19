@@ -1,0 +1,24 @@
+name: temmy
+Total money: 1000.0
+name	portion	amount	
+1. food	25.0 %	$250.0
+2. transportation	25.0 %	$250.0
+3. rent	40.0 %	$400.0
+4. savings	10.0 %	$100.0
+
+name: john
+Total money: 100.0
+name	portion	amount	
+1. bwd	36.0 %	$36.0
+2. car	23.0 %	$23.0
+3. yes	8.0 %	$8.0
+4. iwaskidding	2.0 %	$2.0
+
+name: amanda
+Total money: 43.0
+name	portion	amount	
+1. soccer	25.0 %	$10.75
+2. football	25.0 %	$10.75
+3. basketball	25.0 %	$10.75
+4. basketball	25.0 %	$10.75
+
