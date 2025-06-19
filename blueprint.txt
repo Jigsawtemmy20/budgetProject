@@ -4,8 +4,11 @@ Budget:
   - fraction of total
   - amount
   - name
-- default categories: grocery, rent, savings, transportation?
-- possible additions:
-  - can be saved to/read from a file
+- default categories: grocery, rent, savings, transportation
+- writes to a file
+- budgets can be adjusted after money is spent
+- possible addition ideas:
   - no idea how to do this but possible user interface??
-  - spend money
+  - additional security measures, improvements to input areas
+  - encrypting the file
+  - make it into a server

@@ -34,8 +34,8 @@ public class BudgetProject {
 	}
 	public static ArrayList budgets = new ArrayList<Budget>();
 	public static void budgetSetup(File file, ArrayList<Budget> budgets, Scanner budgetReader){
+		budgetReader.next();
 		while (budgetReader.hasNext()){
-			budgetReader.next();
 			String name = budgetReader.next();
 			budgetReader.nextLine();
 			budgetReader.next();
@@ -51,7 +51,10 @@ public class BudgetProject {
 				budgets.get(budgets.size()-1).addCategory(next, budgetReader.nextDouble());
 				budgetReader.nextLine();
 				if(budgetReader.hasNext()){
-					budgetReader.next();
+					next = budgetReader.next();
+					if (next.contains("name:")){
+						break;
+					}
 					next = budgetReader.next();
 				}
 				else{
@@ -86,7 +89,7 @@ public class BudgetProject {
 		boolean on = true;
 		budgetSetup(file, budgets, budgetReader);
 		while(on) {
-			System.out.println("Welcome to the Budget Calculator!  What would you like to do?\n1) Make a new Budget\n2) Edit Budget\n3) View Budget\n4) Spend money\n5) exit");
+			System.out.println("Welcome to the Budget Calculator!  What would you like to do?\n1) Make a new Budget\n2) Edit Budget\n3) View Budget\n4) Spend money\n5) Remove a budget\n6) exit");
 			int response = input.nextInt();
 			input.nextLine();
 			switch(response) {
@@ -211,6 +214,12 @@ public class BudgetProject {
 				}
 				break;
 			case 5:
+				listBudgets();
+				System.out.print("which budget do you want to remove? ");
+				budgets.remove(input.nextInt());
+				input.nextLine();
+				break;
+			case 6:
 				on = false;
 				System.out.println("Goodbye!");
 				PrintWriter budgetWriter = buildWriter();
