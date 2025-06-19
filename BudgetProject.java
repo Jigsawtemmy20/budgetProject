@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class BudgetProject {
 	public static String acceptableChars = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
@@ -90,8 +91,14 @@ public class BudgetProject {
 		budgetSetup(file, budgets, budgetReader);
 		while(on) {
 			System.out.println("Welcome to the Budget Calculator!  What would you like to do?\n1) Make a new Budget\n2) Edit Budget\n3) View Budget\n4) Spend money\n5) Remove a budget\n6) exit");
-			int response = input.nextInt();
-			input.nextLine();
+			int response;
+			try{
+				response = input.nextInt();
+				}catch(InputMismatchException e){
+					input.nextLine();
+					System.out.println("try again");
+					continue;
+				}
 			switch(response) {
 			case 1:
 				System.out.print("\nBudget name: ");
@@ -103,15 +110,14 @@ public class BudgetProject {
 				double total = input.nextDouble();
 				Budget yourBudget = new Budget(total, name);
 				System.out.println("would you like to:\n1) generate default budget\n2) create your own?");
+				input.nextLine();
 				if(input.nextInt()==1){
-					input.nextLine();
 					yourBudget.addCategory("food", 25);
 					yourBudget.addCategory("transportation", 25);
 					yourBudget.addCategory("rent", 40);
 					yourBudget.addCategory("savings", 10);
 				}
 				else{
-					input.nextLine();
 					System.out.print("\nNumber of spending categories: ");
 					int categories = input.nextInt();
 					input.nextLine();
@@ -161,7 +167,7 @@ public class BudgetProject {
 				input.nextLine();
 				if(action == 1) {
 					System.out.print("\nPlease enter a new total amount: ");
-					budget.setTotal(input.nextInt());
+					budget.setTotal(input.nextDouble());
 					input.nextLine();
 				}
 				else if(action == 2) {
