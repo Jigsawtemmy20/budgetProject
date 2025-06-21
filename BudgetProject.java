@@ -34,6 +34,53 @@ public class BudgetProject {
 		}
 	}
 	public static ArrayList budgets = new ArrayList<Budget>();
+	public static int intCheck(Scanner input){
+		int choice =0;
+			while (true){
+				try{
+					choice = input.nextInt();
+					input.nextLine();
+					if(choice >=0){
+						return choice;
+					}
+					else{
+						System.out.println("invalid input");
+					}
+				}catch(InputMismatchException e){
+					input.nextLine();
+					System.out.println("invalid input");
+					continue;
+				}
+			}
+	}
+	public static int intCheck(Scanner input, int max){
+		while (true){
+			int num = intCheck(input);
+			if(num <= max){
+				return num;
+			}
+			System.out.println("invalid input");
+		}
+	}
+	public static double doubleCheck(Scanner input){
+		double choice =0;
+			while (true){
+				try{
+					choice = input.nextDouble();
+					input.nextLine();
+					if(choice >=0){
+						return choice;
+					}
+					else{
+						System.out.println("invalid input");
+					}
+				}catch(InputMismatchException e){
+					input.nextLine();
+					System.out.println("invalid input");
+					continue;
+				}
+			}
+	}
 	public static void budgetSetup(File file, ArrayList<Budget> budgets, Scanner budgetReader){
 		budgetReader.next();
 		while (budgetReader.hasNext()){
@@ -46,7 +93,6 @@ public class BudgetProject {
 			budgetReader.nextLine();
 			budgetReader.next();
 			String next = budgetReader.next();
-			ArrayList categories = new ArrayList<Category>();
 			budgets.add(new Budget(total, name));
 			while(!next.contains("name:")){
 				budgets.get(budgets.size()-1).addCategory(next, budgetReader.nextDouble());
@@ -94,6 +140,7 @@ public class BudgetProject {
 			int response;
 			try{
 				response = input.nextInt();
+				input.nextLine();
 				}catch(InputMismatchException e){
 					input.nextLine();
 					System.out.println("try again");
@@ -107,20 +154,19 @@ public class BudgetProject {
 					break;
 				}
 				System.out.print("Amount: ");
-				double total = input.nextDouble();
+				double total = doubleCheck(input);
 				Budget yourBudget = new Budget(total, name);
 				System.out.println("would you like to:\n1) generate default budget\n2) create your own?");
-				input.nextLine();
-				if(input.nextInt()==1){
+				int choice = intCheck(input);
+				if(choice==1){
 					yourBudget.addCategory("food", 25);
 					yourBudget.addCategory("transportation", 25);
 					yourBudget.addCategory("rent", 40);
 					yourBudget.addCategory("savings", 10);
 				}
-				else{
+				else if(choice == 2){
 					System.out.print("\nNumber of spending categories: ");
-					int categories = input.nextInt();
-					input.nextLine();
+					int categories = intCheck(input);
 					System.out.println("Would you prefer to manually partition your budget? y/n ");
 					if (input.nextLine().equals("n")){
 						for(int i=0; i<categories; i++){
@@ -142,14 +188,17 @@ public class BudgetProject {
 								name = input.nextLine();
 							}
 							System.out.print("\nWhat percentage of your total would you like to reserve for this category? ");
-							yourBudget.addCategory(name, input.nextDouble());
+							yourBudget.addCategory(name, doubleCheck(input));
 							if(!yourBudget.totalCategoryPortions()){
 								System.out.print("\nThis goes over your budget! You must input a smaller portion or edit the other categories.");
 								yourBudget.removeCategory(name);
 							}
-							input.nextLine();
 						}
 					}
+				}
+				else{
+					System.out.println("invalid input");
+					break;
 				}
 				budgets.add(yourBudget);
 				System.out.print("\nYou have successfully created your budget!");
@@ -158,31 +207,27 @@ public class BudgetProject {
 			case 2:
 				System.out.println("Select your budget: ");
 				listBudgets();
-				Budget budget = (Budget)budgets.get(input.nextInt());
-				input.nextLine();
+				Budget budget = (Budget)budgets.get(intCheck(input, budgets.size()-1));
 				System.out.println("your budget: \n");
 				budget.displayBudget();
-				System.out.print("Would you like to:\n1) Edit total\n2) Add a category\n3) Remove a category ");
-				int action = input.nextInt();
-				input.nextLine();
-				if(action == 1) {
+				System.out.print("Would you like to:\n0) Edit total\n1) Add a category\n2) Remove a category ");
+				int action = intCheck(input, 2);
+				if(action == 0) {
 					System.out.print("\nPlease enter a new total amount: ");
-					budget.setTotal(input.nextDouble());
-					input.nextLine();
+					budget.setTotal(doubleCheck(input));
 				}
-				else if(action == 2) {
+				else if(action == 1) {
 					System.out.print("\nWhat category would you like to add? ");
 					name = input.nextLine();
 					if(nameCheck(name)){
 						System.out.print("\nWhat percentage of your total would you like to reserve for this category? ");
-						budget.addCategory(name, input.nextDouble());
-						input.nextLine();
+						budget.addCategory(name, doubleCheck(input));
 					}
 					else{
 						break;
 					}
 				}
-				else if(action == 3) {
+				else if(action == 2) {
 					System.out.print("\nWhich category would you like to remove? ");
 					budget.removeCategory(input.nextLine());
 				}
@@ -194,23 +239,21 @@ public class BudgetProject {
 			case 3:
 				System.out.println("Select your budget: ");
 				listBudgets();
-				((Budget)budgets.get(input.nextInt())).displayBudget();
-				input.nextLine();
+				((Budget)budgets.get(intCheck(input, budgets.size()-1))).displayBudget();
 				break;
 			case 4:
 				listBudgets();
 				System.out.println("Select your budget: ");
-				Budget theBudget = (Budget)budgets.get(input.nextInt());
+				Budget theBudget = (Budget)budgets.get(intCheck(input, budgets.size()-1));
 				theBudget.displayBudget();
 				System.out.println("which category number would you like to spend in?");
-				int choice = input.nextInt();
-				input.nextLine();
+				choice = intCheck(input, theBudget.getCategories().size()-1);
 				if(choice <0 || choice > theBudget.getCategories().size()){
 					System.out.println("Index does not exist");
 				}
 				else{	
 					System.out.println("How much are you spending? ");
-					double amount = input.nextDouble();
+					double amount = doubleCheck(input);
 					try{
 						theBudget.spendMoney(choice, amount);
 					}
@@ -222,8 +265,7 @@ public class BudgetProject {
 			case 5:
 				listBudgets();
 				System.out.print("which budget do you want to remove? ");
-				budgets.remove(input.nextInt());
-				input.nextLine();
+				budgets.remove(intCheck(input, budgets.size()-1));
 				break;
 			case 6:
 				on = false;
